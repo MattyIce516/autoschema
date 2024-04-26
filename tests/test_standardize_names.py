@@ -3,8 +3,8 @@ import sys
 import os
 import pandas as pd
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
-from util import standardize_column_name, standardize_dataframe_columns
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '...', 'src')))
+from autoschema.util import standardize_column_name, standardize_dataframe_columns
 
 
 @pytest.mark.parametrize("input_name, expected_output", [

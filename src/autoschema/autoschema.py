@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from typeguard import typechecked
 from sklearn.base import BaseEstimator, TransformerMixin
-from util import standardize_dataframe_columns, standardize_column_name
+from .util import standardize_dataframe_columns, standardize_column_name
 
 logger = logging.getLogger(__name__)
 

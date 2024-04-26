@@ -1,6 +1,10 @@
 import os
 from setuptools import setup, find_packages
 
+packages = find_packages(where='src')
+print("Found packages:", packages)
+
+
 with open("README.md", "rt", encoding="utf-8") as fh:
     long_description = fh.read()
 

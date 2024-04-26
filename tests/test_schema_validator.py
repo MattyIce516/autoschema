@@ -17,8 +17,7 @@ def save_schema_rules():
         'required': [True, True, False],
         'default_fill_value': [None, 28, 0]
     })
-    if 'schema_rules.xlsx' not in os.listdir():
-        schema_rules.to_excel('schema_rules.xlsx', index=False)
+    schema_rules.to_excel('tests/schema_rules.xlsx', index=False)
 
 save_schema_rules()
 
@@ -34,7 +33,7 @@ def sample_df():
 @pytest.fixture
 def validator():
     # Initialize the validator with the actual Excel file
-    return SchemaValidator(schema_file='schema_rules.xlsx')
+    return SchemaValidator(schema_file='tests/schema_rules.xlsx')
 
 def test_enforce_data_type(sample_df, validator):
     validator._enforce_data_type(sample_df, 'age', 'float')

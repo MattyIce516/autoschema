@@ -3,8 +3,8 @@ import pandas as pd
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
-from util import read_universal
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '...', 'src')))
+from autoschema.util import read_universal
 
 def test_read_csv():
     """Test reading CSV files."""

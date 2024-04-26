@@ -4,8 +4,9 @@ from unittest.mock import patch
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
-from autoschema import _get_dataframe_examples, auto_schema
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '...', 'src')))
+from autoschema.autoschema import _get_dataframe_examples
+from autoschema.autoschema import auto_schema
 
 def test_get_dataframe_examples():
     """Test that the function correctly extracts column names and example values."""
