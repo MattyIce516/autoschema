@@ -6,7 +6,7 @@
 Install `autoschema` directly from github using pip:
 
 ```bash
-pip install https://github.com/MattyIce516/autoschema.git
+pip install git+https://github.com/MattyIce516/autoschema.git
 ```
 
 Alternatively, you can clone the repo and install directly from the source code:
@@ -28,16 +28,17 @@ pip install .
 Here's how to quickly get started with 'autoschema':
 
 ```python
+# Assuming you have a DataFrame 'data' loaded from a CSV or another source
 from autoschema import auto_schema, SchemaValidator
 
-# Create schema file
+# Create schema file from your DataFrame
 schema = auto_schema(data, write_schema=True, schema_file_name='schema.xlsx')
 
 # Initialize the validator with a path to your schema file
 validator = SchemaValidator(schema_file='schema.xlsx')
 
 # Fit the validator to your DataFrame
-validator.fit(your_dataframe)
+validator.fit(data)
 
 # Validate and transform another DataFrame
 validated_df = validator.transform(another_dataframe)
