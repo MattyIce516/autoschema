@@ -330,12 +330,75 @@ class SchemaValidator(BaseEstimator, TransformerMixin):
         with open(filename, 'rb') as f:
             return pickle.load(f)
 
+class ColumnSelector(BaseEstimator, TransformerMixin):
+    """
+    A transformer class for selecting specific columns from a DataFrame.
 
-# Test functions here
-if __name__ == '__main__':
-    data = pd.read_csv('example.csv')
-    data['column4'] = pd.to_datetime(data['column4'], dayfirst=True)
-    print(data, '\n')
-    
-    schema = auto_schema(data, write_schema=True)
-    print(schema, '\n')
+    This is useful in a pipeline where only certain features are needed for modeling and
+    can help ensure that the DataFrame passed through the pipeline only contains
+    the required fields.
+
+    Parameters:
+    ----------
+    required_columns : list
+        A list of column names to retain in the DataFrame.
+
+    Example:
+    --------
+    >>> from sklearn.pipeline import Pipeline
+    >>> from sklearn.ensemble import RandomForestClassifier
+    >>> pipeline = Pipeline([
+    ...     ('selector', ColumnSelector(required_columns=['age', 'fare'])),
+    ...     ('classifier', RandomForestClassifier())
+    ... ])
+    >>> pipeline.fit(X_train, y_train)  # X_train must include at least 'age' and 'fare'
+    """
+
+    def __init__(self, required_columns):
+        self.required_columns = required_columns
+
+    def fit(self, X, y=None):
+        # Check if all the required columns are in the DataFrame
+        missing_cols = [col for col in self.required_columns if col not in X.columns]
+        if missing_cols:
+            raise ValueError(f"The following required columns are missing: {missing_cols}")
+        return self
+
+    def transform(self, X):
+        """
+        Transforms the DataFrame by retaining only the required columns.
+
+        Parameters:
+        ----------
+        X : pd.DataFrame
+            Input DataFrame to transform.
+
+        Returns:
+        -------
+        pd.DataFrame
+            Transformed DataFrame containing only the required columns.
+        """
+        return X[self.required_columns].copy()
+
+    def fit_transform(self, X, y=None):
+        """
+        Fits to the data, then transforms it. This is a shorthand for fit(X, y).transform(X).
+
+        Parameters:
+        ----------
+        X : pd.DataFrame
+            Input DataFrame to fit and transform.
+        y : None
+            Unused parameter, included for compatibility with Pipeline.
+
+        Returns:
+        -------
+        pd.DataFrame
+            Transformed DataFrame containing only the required columns.
+        """
+        # First, fit to get any necessary validation done
+        self.fit(X, y)
+        # Now transform and return the transformed data
+        return self.transform(X)
+
+
